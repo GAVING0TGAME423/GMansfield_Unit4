@@ -6,10 +6,32 @@ public class SpawnManager : MonoBehaviour
 {
     public GameObject Enemyprefab;
     private float spawnrange = 8.5f;
+    private int enemycount;
+    private int wavenumber = 1;
+    public GameObject powerupprefab;
+
     void Start()
     {
-       
-        Instantiate(Enemyprefab, GenerateSpawnPos(), Enemyprefab.transform.rotation);
+        spawnwave(wavenumber);
+        
+    }
+
+    private void Update()
+    {
+        enemycount = FindObjectsOfType<Enemy>().Length;
+        if (enemycount == 0)
+        {
+            wavenumber++;
+            spawnwave(wavenumber);
+        }
+    }
+    void spawnwave(int enemynum)
+    {
+        Instantiate(powerupprefab, GenerateSpawnPos(), powerupprefab.transform.rotation);
+        for (int i = 0; i < enemynum; i++)
+        {
+            Instantiate(Enemyprefab, GenerateSpawnPos(), Enemyprefab.transform.rotation);
+        }
     }
 
    Vector3 GenerateSpawnPos()
